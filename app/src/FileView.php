@@ -34,28 +34,32 @@ class FileView {
             var table = new Tabulator("#file-view-table", {
                 layout: "fitDataTable",
                 autoColumns: true,
-                ajaxRequesting: function(url, params) {
-                    $('#file-view-loading').show();
-                },
-                ajaxResponse: function(url, params, response) {
-                    $('#file-view-loading').hide();
-                    // Build sheet links
-                    var links = '';
-                    for (var i = 0; i < response.availableSheets.length; i++) {
-                        if (i > 0) links += ' | ';
-                        if (response.availableSheets[i] === response.sheetName) {
-                            links += '<strong>' + response.availableSheets[i] + '</strong>';
-                        } else {
-                            links += '<a href="#" onclick="changeSheet(\'' + response.availableSheets[i] + '\')">' + response.availableSheets[i] + '</a>';
-                        }
-                    }
-                    $('#sheet-links').html(links);
-                },
             });
 
             function loadData(sheet) {
                 currentSheet = sheet;
-                table.setData(a7xslx_ajax.filedata_url + '&file_id=<?php echo $id; ?>&limit=50&sheet=' + encodeURIComponent(sheet));
+                $('#file-view-loading').show();
+                fetch(a7xslx_ajax.filedata_url + '&file_id=<?php echo $id; ?>&limit=50&sheet=' + encodeURIComponent(sheet))
+                    .then(response => response.json())
+                    .then(response => {
+                        table.setData(response.data);
+                        // Build sheet links
+                        var links = '';
+                        for (var i = 0; i < response.availableSheets.length; i++) {
+                            if (i > 0) links += ' | ';
+                            if (response.availableSheets[i] === response.sheetName) {
+                                links += '<strong>' + response.availableSheets[i] + '</strong>';
+                            } else {
+                                links += '<a href="#" onclick="changeSheet(\'' + response.availableSheets[i] + '\')">' + response.availableSheets[i] + '</a>';
+                            }
+                        }
+                        $('#sheet-links').html(links);
+                        $('#file-view-loading').hide();
+                    })
+                    .catch(error => {
+                        console.error('Error loading data:', error);
+                        $('#file-view-loading').hide();
+                    });
             }
 
             window.changeSheet = function(sheet) {

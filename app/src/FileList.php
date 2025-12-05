@@ -33,14 +33,7 @@ class FileList {
         <script>
         jQuery(document).ready(function($) {
             var table = new Tabulator("#file-list-table", {
-                ajaxURL: a7xslx_ajax.allfiles_url,
                 layout: "fitColumns",
-                ajaxRequesting: function(url, params) {
-                    $('#file-list-loading').show();
-                },
-                ajaxResponse: function(url, params, response) {
-                    $('#file-list-loading').hide();
-                },
                 columns: [
                     {title: "ID", field: "id", width: 50},
                     {title: "Filename", field: "filename"},
@@ -54,6 +47,22 @@ class FileList {
                     }}
                 ],
             });
+
+            function loadData() {
+                $('#file-list-loading').show();
+                fetch(a7xslx_ajax.allfiles_url)
+                    .then(response => response.json())
+                    .then(data => {
+                        table.setData(data.data);
+                        $('#file-list-loading').hide();
+                    })
+                    .catch(error => {
+                        console.error('Error loading data:', error);
+                        $('#file-list-loading').hide();
+                    });
+            }
+
+            loadData();
         });
         </script>
         <?php

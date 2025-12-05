@@ -163,8 +163,8 @@ function a7xslx_enqueue_scripts($hook) {
         return;
     }
     // Enqueue Tabulator
-    wp_enqueue_script('tabulator', 'https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js', array('jquery'), '5.5.2', true);
-    wp_enqueue_style('tabulator', 'https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css');
+    wp_enqueue_script('tabulator', 'https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js', array('jquery'), '6.3.1', true);
+    wp_enqueue_style('tabulator', 'https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator.min.css');
 
     // Localize script for AJAX URLs
     wp_localize_script('tabulator', 'a7xslx_ajax', array(
@@ -172,3 +172,4 @@ function a7xslx_enqueue_scripts($hook) {
         'filedata_url' => admin_url('admin.php?page=a7xslx-app&action=api&endpoint=data'),
     ));
 }
+

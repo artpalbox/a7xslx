@@ -87,27 +87,7 @@ class API {
             return;
         }
 
-        try {
-            // Get available sheets using Spout
-            $ext = strtolower(pathinfo($file->filepath, PATHINFO_EXTENSION));
-            if (in_array($ext, ['xlsm'])) {
-                $tempReader = \Box\Spout\Reader\Common\Creator\ReaderEntityFactory::createXLSXReader();
-                $tempReader->open($file->filepath);
-            } else {
-                $tempReader = \Box\Spout\Reader\Common\Creator\ReaderFactory::createFromFile($file->filepath);
-                $tempReader->open();
-            }
-
-            $availableSheets = [];
-            foreach ($tempReader->getSheetIterator() as $sheet) {
-                $availableSheets[] = $sheet->getName();
-            }
-            $tempReader->close();
-
-            if (!$sheet_name) {
-                $sheet_name = $availableSheets[0] ?? '';
-            }
-
+        try {            
             // Use Spout for all, with custom reader for xlsm
             $ext = strtolower(pathinfo($file->filepath, PATHINFO_EXTENSION));
             if ($ext === 'xlsm') {
@@ -116,6 +96,15 @@ class API {
             } else {
                 $reader = \Box\Spout\Reader\Common\Creator\ReaderFactory::createFromFile($file->filepath);
                 $reader->open();
+            }
+
+            $availableSheets = [];
+            foreach ($reader->getSheetIterator() as $sheet) {
+                $availableSheets[] = $sheet->getName();
+            }
+
+            if (!$sheet_name) {
+                $sheet_name = $availableSheets[0] ?? '';
             }
 
             $data = [];

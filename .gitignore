@@ -1,0 +1,44 @@
+# Composer dependencies
+/vendor/
+/composer.lock
+
+# IDE and editor files
+/.vscode/
+/.idea/
+/*.swp
+/*.swo
+/*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+/tmp/
+/temp/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+/cache/
+/storage/
+
+# Node modules (if any)
+/node_modules/
+
+# Build artifacts
+/dist/
+/build/
+
+# WordPress specific
+# Note: Uploaded files are in wp-content/uploads/a7xslx/ but not tracked here
