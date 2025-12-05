@@ -1,0 +1,14 @@
+{
+    "name": "a7xslx/micro-app",
+    "description": "Micro application for handling Excel files",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.3",
+        "box/spout": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "A7XSLX\\": "src/"
+        }
+    }
+}
